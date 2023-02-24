@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circus Canon</title>
+    <style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #443322;
+}
+</style> </head>
+  <!--<body onload="startGame()"> --> <body> <button onclick="startGame()">START</button>
+    <!--<script src="http://unpkg.com/tone"></script>-->
+    <script src="javascript/Tone.js"></script>
+    <script>
+
+//https://www.w3schools.com/graphics/tryit.asp?filename=trygame_score
+//https://www.pixilart.com/draw
+  
+var strX;
+var strY;
+var myScore;
+var bell1;
+var bell2;
+var canvasWidth=900;
+var canvasHeight=600;
+var centerX=canvasWidth/2;
+var centerY=canvasHeight/2 ;
+var clownRadius=220; 
+var bellRadius=128;
+var clownSize=64;
+var bellSize = 32;
+var slowDown=360;
+var debug=0;      
+/////////////
+				const synth1 = new Tone.Synth().toDestination();
+        const synth2 = new Tone.Synth().toDestination();
+        const synth3 = new Tone.Synth().toDestination();
+        const synth4 = new Tone.Synth().toDestination();
+        //const now = Tone.now();
+        //const qn = 0.65;
+/////////////////
+      
+function startGame() {
+    clown = new clownComponent(clownSize, clownSize, "images/clown2.png", centerX-(clownSize/2), centerY-clownRadius-(clownSize/2));
+    bell1 = new imgcomponent(bellSize, bellSize, "images/bell.png", centerX-bellRadius-(bellSize/2), centerY-(bellSize/2));
+    bell2 = new imgcomponent(bellSize, bellSize, "images/bell.png", centerX+bellRadius-(bellSize/2), centerY-(bellSize/2));
+    myScore = new component("30px", "Courier New", "white", centerX+128, 40, "text");
+    myScore2 = new component("30px", "Courier New", "white", centerX-228, 40, "text");
+    myScore2.text=0;
+    myGameArea.start();
+}
+
+var myGameArea = {
+    
+    canvas : document.createElement("canvas"),
+    start : function() {
+      this.phase=-1;
+        this.canvas.width = canvasWidth;
+        this.canvas.height = canvasHeight;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        waveOne = new waveComponent(1);
+      
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    stop : function() {
+        clearInterval(this.interval);
+    }
+}
+
+function imgcomponent(width, height, source , x, y) {
+    this.image = new Image();
+    this.image.src = source;
+    this.width = width;
+    this.height = height;   
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        myGameArea.context.drawImage(this.image, this.x, this.y,this.width, this.height);
+    }
+}
+      
+function clownComponent(width, height, source , x, y) {
+    this.image = new Image();
+    this.image.src = source;
+    this.width = width;
+    this.height = height;   
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        myGameArea.context.drawImage(this.image, this.x, this.y, this.width, this.height);
+    }
+    this.newPos = function() {
+      this.x =  Math.round(centerX + clownRadius*Math.sin(Math.PI*2*myGameArea.phase/360)-(clownSize/2));
+      this.y =  Math.round(centerY + clownRadius*(-1)*Math.cos(Math.PI*2*myGameArea.phase/360)-(clownSize/2));   
+    }
+}
+
+function waveComponent(bellNumber){
+    this.startPhase = myGameArea.phase;
+    this.done = 0;
+    this.speed = 48;
+    this.maxRadius=400;
+    this.bellNumber = bellNumber;
+    this.centerX = bell2.x+(bellSize/2);
+    this.centerY = bell2.y+(bellSize/2);
+    this.color = "#DDDDFF";
+  if (this.bellNumber == 1){    
+      this.centerX = bell1.x+(bellSize/2);
+    	this.centerY = bell1.y+(bellSize/2);
+      this.color = "#DDFFDD";
+     }
+
+    this.update = function() {
+         //calculate the radius to the clown and 
+      	 //if it has been passed, set radius to max radius (don't draw)
+         var clownX = clown.x +(clownSize/2);
+         var clownY = clown.y +(clownSize/2);
+         var clownDistX = this.centerX - clownX;
+         var clownDistY = this.centerY - clownY;
+         var clownDistance = Math.sqrt((clownDistX*clownDistX)+(clownDistY*clownDistY));
+    		 this.radius= this.speed*(myGameArea.phase - this.startPhase+1);
+         if (this.radius > clownDistance) this.radius = this.maxRadius;
+         if (this.radius < this.maxRadius) {
+						myGameArea.context.beginPath();
+						myGameArea.context.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI);
+						myGameArea.context.strokeStyle = this.color;
+						if (this.bellNumber == 1 || myGameArea.phase > 3) myGameArea.context.stroke();
+         } else {
+          this.radius = this.maxRadius;
+           //if not done, then make the tone corresponding to the start phase, and mark self done
+           if (this.done==0){
+           		tone(this.startPhase/4);
+           		//synth1.triggerAttackRelease("C#4", "8n");
+           		this.done=1;
+           }
+         }
+    }
+    
+    this.restart = function() {
+    this.startPhase = myGameArea.phase;
+    this.radius = 1;  
+    this.done = 0;
+    if (this.radius < this.maxRadius) {
+					myGameArea.context.beginPath();
+					myGameArea.context.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI);
+					myGameArea.context.strokeStyle = this.color;
+					myGameArea.context.stroke();
+        } else {
+          this.radius = this.maxRadius;
+        }
+     }
+    
+  
+}
+  
+function component(font, height, color, x, y, type) {
+    this.font = font;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    this.update = function() {
+        ctx = myGameArea.context;
+        ctx.font = this.font + " " + this.height;
+        ctx.fillStyle = color;
+        ctx.fillText(this.text, this.x, this.y);
+    }
+}
+
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    myGameArea.clear();
+  
+	//Ring
+	myGameArea.context.beginPath();
+  myGameArea.context.arc(canvasWidth/2, canvasHeight/2, canvasHeight*.3, 0, 2 * Math.PI);
+	myGameArea.context.strokeStyle = "#FF6666";
+	myGameArea.context.stroke();
+ 
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(6)) {
+      //ring bell(s), etc
+      myGameArea.phase += 1;
+      if (dingOne()){
+        waveOne.restart();
+      }
+      if (dingTwo()){
+        waveTwo.restart();
+      }
+    }
+    if (myGameArea.frameNo == 4 ) {
+ 				waveTwo = new waveComponent(2);
+    }
+  //myScore.text="SCORE: " + myGameArea.frameNo +" :" +Math.sin(myGameArea.frameNo/slowDown);
+  myScore.text="X: " + String(clown.x - centerX).padStart(4, '0') +";  Y: " + String(clown.y - centerY).padStart(4, '0');
+  strX= String(clown.x - centerX+(clownSize/2)).padStart(4, '0');
+  strY= String( centerY - clown.y -(clownSize/2)).padStart(4, '0');
+  let result=  strY.replace("000-","-000");
+  strY=result;
+  result = strX.replace("000-","-000");
+  strX= result;
+  result = strX.replace("00-","-00");
+  strX= result;
+  result=  strY.replace("00-","-00");
+  strY=result;
+  result =strX.replace("0-","-0");
+  strX= result;
+  result = strY.replace("0-","-0");
+  strY=result;
+      //myScore.text="X: " + strX +";  Y: " + strY;
+  myScore.text="TIME: " + myGameArea.phase;
+  if (debug >0) myScore.update();
+  if (debug >0) myScore2.update();
+  bell1.update();
+  bell2.update();
+  clown.newPos();
+  clown.update();
+  waveOne.update();
+  waveTwo.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+function dingOne (){
+    Beat = ((myGameArea.phase/4) % 30)+1;
+      if ((myGameArea.phase / 8) % 1 == 0) {
+        if (Beat <26) return true;
+      }
+    return false;
+}
+function dingTwo (){
+  Beat = ((myGameArea.phase/4) % 30)+1;
+      if (((myGameArea.phase+4) / 8) % 1 == 0) {
+        if (Beat <26) return true; 
+      }
+    return false;
+}
+function tone(phase) {
+		//make the tone that was triggered at the specified beat (modulus 30)
+    beat = (phase % 30)+1;
+    //beat=1;
+    duration="8n";
+    note="C#6";
+    if (beat==25) {
+      //A
+      duration ="4n";
+      synth1.triggerAttackRelease("A2",duration)
+      synth2.triggerAttackRelease("E3",duration)
+      synth3.triggerAttackRelease("A4",duration)
+      synth4.triggerAttackRelease("C#4",duration)
+    } else {
+      	// A
+        if (beat==1) note="C#4" ;
+        if (beat==2) note="E3" ;
+        if (beat==3) note="B3";       
+ 				if (beat==4) note="A3";      
+        
+        
+				// D
+        if (beat==5) note="D4";     
+        if (beat==6) note="A3";      
+        if (beat==7) note="E4";      
+ 				if (beat==8) note="F#4";      
+        
+        
+				// Cm
+        if (beat==9) note="C#3";     
+        if (beat==10) note="G#3";      
+        if (beat==11) note="C#4";      
+        if (beat==11) synth3.triggerAttackRelease("E4",duration);
+ 				if (beat==12) note="G#3";      
+        
+ 				// F#m
+        if (beat==13) note="F#2";     
+        if (beat==14) note="C#3";      
+        if (beat==15) note="A3";      
+        if (beat==15) synth3.triggerAttackRelease("C#4",duration);
+ 				if (beat==16) note="F#3";      
+ 
+        // F
+        if (beat==17) note="F2";    
+        if (beat==18) note="C3";      
+        if (beat==19) note="F3";      
+ 				if (beat==20) note="A3";      
+ 
+        // E
+        if (beat==21) note="E3";     
+        if (beat==22) note="B3";      
+        if (beat==23) note="G#3";      
+        if (beat==23) synth3.triggerAttackRelease("B4",duration);
+ 				if (beat==24) note="E4"; 
+      
+     if ((beat % 2)==0 &&(beat <25)) synth2.triggerAttackRelease(note, duration);
+     if ((beat % 2)> 0 &&(beat <25)) synth1.triggerAttackRelease(note, duration);
+     //if (beat==11) synth3.triggerAttackRelease("E4",duration);  
+     //if (beat==15) synth3.triggerAttackRelease("C#4",duration);
+     //if (beat==23) synth3.triggerAttackRelease("B4",duration);
+    }
+    myScore2.text="BEAT: " + beat;
+}      
+</script>
+  </body>
+</html>
