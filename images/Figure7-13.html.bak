@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Figure 7-13</title>
+    <style>
+			body { margin: 0; }
+			canvas { width: 90%; height: 90% }
+		</style>
+  </head>
+  <body> 
+    <script src="javascript/three.js"></script>
+    <script>
+						//https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+
+						//To actually be able to display anything with three.js, we need three things: scene, camera and renderer, so that we can render the scene with camera.
+						var scene = new THREE.Scene();
+																//FOV (degrees), aspect ratio, near plane, far plane
+						var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+						var renderer = new THREE.WebGLRenderer();
+						renderer.setClearColor( 0xffffff, 1.0 );
+						renderer.setSize( window.innerWidth, window.innerHeight );
+      
+      	var pointLight = new THREE.PointLight(0xFFFFFF);
+        pointLight.position.x = 100;
+        pointLight.position.y = 50;
+        pointLight.position.z = 130;
+        // antialiasing not working on iPad...
+        pointLight.shadow.mapSize.width = 1024; // default is 512
+        pointLight.shadow.mapSize.height = 1024; // default is 512
+        scene.add(pointLight);
+
+						//Last but not least, we add the renderer element to our HTML document. This is a <canvas> element the renderer uses to display the scene to us.
+						document.body.appendChild( renderer.domElement );
+
+      upperGeom = new THREE.CylinderGeometry(10, 0, 12, 40, 5, false) ;
+      coneMaterial = new THREE.MeshPhongMaterial( { color: 0x00ff00, transparent:true, opacity: 0.5 } );
+      var meshUppercone = new THREE.Mesh( upperGeom, coneMaterial ) ;
+      meshUppercone.position.set(0.0, 1.25, 0.0); 
+      point = new THREE.Vector3(0.0, 0.0, -20.0);
+      upperGeom.applyMatrix4( new THREE.Matrix4().makeRotationY( Math.PI/2 ) );
+
+      scene.add( meshUppercone );
+
+      
+      //CylinderGeometry(radiusTop : Float, radiusBottom : Float, height : Float, 
+      //  radialSegments : Integer, heightSegments : Integer, openEnded : Boolean, 
+      //  thetaStart : Float, thetaLength : Float)
+			lowerGeom = new THREE.CylinderGeometry(0, 10, 10, 40, 5, true) ;
+      coneMaterial2 = new THREE.MeshPhongMaterial( { color: 0x444444, transparent:true, opacity: 0.3 } );
+      var meshLowerCone = new THREE.Mesh( lowerGeom, coneMaterial2 ) ;
+      meshLowerCone.position.set(0.0, -10.0, 0.0); 
+      point = new THREE.Vector3(0.0, 0.0, -20.0);
+
+      scene.add( meshLowerCone );
+
+      ///////////////////////////////////
+      //
+      // Plane
+      //
+      ///////////////////////////////////
+
+
+      var XYsquareGeometry = new THREE.PlaneGeometry(30,30);
+
+      var squareMaterial = new THREE.MeshBasicMaterial({ 
+                  color:0x367a91, transparent:false, opacity:5, side:THREE.DoubleSide 
+                });
+      var XYsquareMesh = new THREE.Mesh(XYsquareGeometry, squareMaterial); 
+      XYsquareMesh.position.set(0.0, -10, 0); 
+     XYsquareMesh.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));    
+            XYsquareMesh.position.set(0.0, -5.2, 0);
+      scene.add(XYsquareMesh); 
+      
+      
+      const geometry = new THREE.CylinderGeometry( 5, 5, 0.1, 32, 5, false );
+const material1 = new THREE.MeshBasicMaterial( { color: 0xffffff, transparent:false, opacity:0.5 } );
+const circle = new THREE.Mesh( geometry, material1 );
+          // circle.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));   
+      circle.position.set(0.0, 1, 0); 
+scene.add( circle );
+      
+  //         const geometryTop = new THREE.CylinderGeometry( 5, 5, 0.1, 32, 5, false );
+//const material2 = new THREE.MeshBasicMaterial( { color: 0x000000, transparent:false, opacity:0.5 } );
+//const topLim = new THREE.Mesh( geometryTop, material2 );
+          // circle.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));   
+  //   topLim.position.set(0.0, 10, 0); 
+//scene.add( topLim );
+      
+  //          const geometryBottom = new THREE.CylinderGeometry( 5, 5, 0.1, 32, 5, false );
+//const material3 = new THREE.MeshBasicMaterial( { color: 0x000000, transparent:false, opacity:0.5 } );
+//const bottomLim = new THREE.Mesh( geometryBottom, material3 );
+          // circle.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));   
+  //    bottomLim.position.set(0.0, -10, 0); 
+//scene.add( bottomLim );
+      
+      
+      var circleScale=1;
+      var planeLevel=-5.2;
+      //Back camera away from 0,0,0 to see the cube
+      camera.position.z = 30;
+
+      //We're not actually rendering anything yet. For that, we need what's called a render or animate loop.
+      var animate = function () {
+
+        //This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages. Perhaps the most important one is that it pauses when the user navigates to another browser tab, hence not wasting their precious processing power and battery life.
+        requestAnimationFrame( animate );
+
+        XYsquareMesh.position.set(0.0, planeLevel, 0);
+        circle.position.set(0.0, planeLevel-0.02, 0); 
+        circleScale=(planeLevel+5.2)/6.29;
+        circle.scale.set(circleScale, 1, circleScale)
+        planeLevel += 0.05;
+
+        if (planeLevel > 8) { planeLevel=-5.2 ; }
+
+        renderer.render( scene, camera );
+      };
+
+			animate();
+
+
+		</script>
+  </body>
+</html>

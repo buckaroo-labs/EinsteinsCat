@@ -1,0 +1,209 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Figure 10-3</title>
+    <style>
+			body { margin: 0; }
+			canvas { width: 90%; height: 90% }
+		</style>
+  </head>
+  <body> 
+    <script src="https://threejs.org/build/three.js"></script>
+    <script>
+      //https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+
+      //To actually be able to display anything with three.js, we need three things: scene, camera and renderer, so that we can render the scene with camera.
+      var scene = new THREE.Scene();
+
+      //var camera = new THREE.OrthographicCamera( -100, 50, 75/(window.innerWidth/window.innerHeight), -75/(window.innerWidth/window.innerHeight) ,0.1, 20 );
+					var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setClearColor( 0x99bbff, 1.0 );
+      renderer.setSize( window.innerWidth, window.innerHeight );
+ 
+      var pointLight = new THREE.PointLight(0xFFFFFF);
+      pointLight.position.x = 500;
+      pointLight.position.y = 150;
+      pointLight.position.z = -130;
+      // antialiasing not working on iPad...
+      pointLight.shadow.mapSize.width = 1024; // default is 512
+      pointLight.shadow.mapSize.height = 1024; // default is 512
+      scene.add(pointLight);
+
+            var pointLight2 = new THREE.PointLight(0xFFFFFF);
+      pointLight2.position.x = -100;
+      pointLight2.position.y = 50;
+      pointLight2.position.z = -60;
+      // antialiasing not working on iPad...
+      pointLight2.shadow.mapSize.width = 1024; // default is 512
+      pointLight2.shadow.mapSize.height = 1024; // default is 512
+      scene.add(pointLight2);
+      
+						//Last but not least, we add the renderer element to our HTML document. This is a <canvas> element the renderer uses to display the scene to us.
+						document.body.appendChild( renderer.domElement );
+      
+
+      
+      ///////////////////////////////////
+      //
+      // Lines
+      //
+      ///////////////////////////////////
+         const materialB = new THREE.LineBasicMaterial( { color: 0x444400 } );
+   
+      const materialC = new THREE.LineBasicMaterial( { color: 0xffffff } );
+      
+      pointsYellow= []; 
+      pointsYellow.push( new THREE.Vector3( 0, 1, 0 ) );
+      pointsYellow.push( new THREE.Vector3( 10, 1, 0 ) );          
+      geometryLine0 = new THREE.BufferGeometry().setFromPoints( pointsYellow );
+
+      pointsGreen= [];
+            pointsGreen.push( new THREE.Vector3( 0, 1, 1000 ) );
+      pointsGreen.push( new THREE.Vector3( 0, 1, 0 ) );  
+        geometryLine1 = new THREE.BufferGeometry().setFromPoints( pointsGreen );    
+      
+      for (var i=0; i<20; i ++){
+       var newLine=  new THREE.Line( geometryLine0, materialC );
+       newLine.position.set(100*i-1000,1,-5) ;
+       scene.add(newLine); 
+       var newLine2=  new THREE.Line( geometryLine0, materialC );
+       newLine2.position.set(100*i-1000,1,10) ;
+       scene.add(newLine2); 
+      }
+      
+      for (var j=0; j<200; j ++){
+       var newLine3 =  new THREE.Line( geometryLine1, materialB );
+       newLine3.position.set(40*j-1000,-.05,30) ;
+       scene.add(newLine3); 
+
+      }
+      
+      ///////////////////////////////////
+      //
+      // Planes
+      //
+      ///////////////////////////////////
+
+
+      var roadGeometry = new THREE.PlaneGeometry(2500,50);
+
+      var roadMaterial = new THREE.MeshBasicMaterial({ 
+                  color:0x444444, transparent:false, opacity:5, side:THREE.DoubleSide 
+                });
+      var roadMesh = new THREE.Mesh(roadGeometry, roadMaterial); 
+      roadMesh.position.set(0.0, 0, 0); 
+      roadMesh.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));    
+            roadMesh.position.set(300, 0, 0);
+      scene.add(roadMesh); 
+      
+      
+      var XYsquareGeometry = new THREE.PlaneGeometry(2500,2500);
+
+      var squareMaterial = new THREE.MeshBasicMaterial({ 
+                  color:0x009900, transparent:false, opacity:5, side:THREE.DoubleSide 
+                });
+      var XYsquareMesh = new THREE.Mesh(XYsquareGeometry, squareMaterial); 
+      XYsquareMesh.position.set(0.0, 0, 0); 
+      XYsquareMesh.applyMatrix4(new THREE.Matrix4().makeRotationX( Math.PI/2 ));    
+            XYsquareMesh.position.set(300, -1, -1);
+      scene.add(XYsquareMesh); 
+          
+      
+      ///////////////////////////////////
+      //
+      // hills
+      //
+      ///////////////////////////////////   
+     
+      upperGeom = new THREE.CylinderGeometry(50, 500, 200, 40, 5, false) ;
+      coneMaterial = new THREE.MeshPhongMaterial( { color: 0x006600, transparent:false, opacity: 0.5 } );
+      var meshUppercone = new THREE.Mesh( upperGeom, coneMaterial ) ;
+      meshUppercone.position.set(300, 0, -600);     
+      upperGeom.applyMatrix4( new THREE.Matrix4().makeRotationY( Math.PI/2 ) );
+      scene.add( meshUppercone );
+      
+      upperGeom2 = new THREE.CylinderGeometry(50, 500, 150, 40, 5, false) ;
+      coneMaterial2 = new THREE.MeshPhongMaterial( { color: 0x006600, transparent:false, opacity: 0.5 } );
+      var meshUppercone2 = new THREE.Mesh( upperGeom2, coneMaterial2 ) ;
+      meshUppercone2.position.set(600, 0, 400);     
+      upperGeom2.applyMatrix4( new THREE.Matrix4().makeRotationY( Math.PI/2 ) );
+      scene.add( meshUppercone2 );  
+      
+            upperGeom3 = new THREE.CylinderGeometry(50, 400, 200, 40, 5, false) ;
+      coneMaterial3 = new THREE.MeshPhongMaterial( { color: 0x006600, transparent:false, opacity: 0.5 } );
+      var meshUppercone3 = new THREE.Mesh( upperGeom3, coneMaterial3 ) ;
+      meshUppercone3.position.set(-900, 0, -500);     
+      upperGeom3.applyMatrix4( new THREE.Matrix4().makeRotationY( Math.PI/2 ) );
+      scene.add( meshUppercone3 );   
+      
+            upperGeom4 = new THREE.CylinderGeometry(30, 300, 200, 40, 5, false) ;
+      coneMaterial4 = new THREE.MeshPhongMaterial( { color: 0x006600, transparent:false, opacity: 0.5 } );
+      var meshUppercone4 = new THREE.Mesh( upperGeom4, coneMaterial4 ) ;
+      meshUppercone4.position.set(-600, 0, 500);     
+      upperGeom4.applyMatrix4( new THREE.Matrix4().makeRotationY( Math.PI/2 ) );
+      //scene.add( meshUppercone4 );   
+      
+      ///////////////////////////////////
+      //
+      // Barn
+      //
+      ///////////////////////////////////    
+      						var barnGeometry = new THREE.BoxGeometry( 65, 50, 80 );
+      						var barnMaterial = new THREE.MeshPhongMaterial( { color: 0xff3333} )
+						var cube = new THREE.Mesh( barnGeometry, barnMaterial );
+						//add to (0,0,0)
+						scene.add( cube );
+      cube.position.z=100;
+      cube.position.y=26;
+      
+      
+      ///////////////////////////////////
+      //
+      // Camera
+      //
+      ///////////////////////////////////
+      cameraStartX = -800;
+      cameraEndX = 500;
+      camera.position.x = cameraStartX;
+      camera.position.y = 8;
+      camera.position.z = 18;
+      
+      barnPosition=new THREE.Vector3(0,0,150)
+ 
+      camera.lookAt(barnPosition);
+      
+      slope=0;
+      cueZ=10;
+      
+      //We're not actually rendering anything yet. For that, we need what's called a render or animate loop.
+      var animate = function () {
+
+        //This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages. Perhaps the most important one is that it pauses when the user navigates to another browser tab, hence not wasting their precious processing power and battery life.
+        requestAnimationFrame( animate );
+
+ 				//update camera position
+        camera.position.x += 1;
+        meshUppercone.position.x +=1;
+        meshUppercone2.position.x +=1;
+                meshUppercone3.position.x +=0.5;
+                meshUppercone3.position.x +=0.5;
+        camera.lookAt(barnPosition);
+        if (camera.position.x >cameraEndX){
+          camera.position.x=cameraStartX;
+          meshUppercone.position.x =300;
+        	meshUppercone2.position.x =600;
+               	meshUppercone3.position.x =-900;
+               	meshUppercone4.position.x =-600;
+        }
+        
+      
+        renderer.render( scene, camera );
+      };
+
+			animate();
+
+
+		</script>
+  </body>
+</html>

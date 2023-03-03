@@ -1,0 +1,232 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Figure 8-12</title>
+    <style>
+			body { margin: 0; }
+			canvas { width: 90%; height: 90% }
+		</style>
+  </head>
+  <body>
+    <script src="https://threejs.org/build/three.js"></script>
+    <script>
+      //https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
+
+      //To actually be able to display anything with three.js, we need three things: scene, camera and renderer, so that we can render the scene with camera.
+      var scene = new THREE.Scene();
+
+      var camera = new THREE.OrthographicCamera( -100, 50, 75/(window.innerWidth/window.innerHeight), -75/(window.innerWidth/window.innerHeight) ,0.1, 20 );
+
+      var renderer = new THREE.WebGLRenderer();
+      renderer.setClearColor( 0x367a91, 1.0 );
+      renderer.setSize( window.innerWidth, window.innerHeight );
+ 
+      var pointLight = new THREE.PointLight(0xFFFFFF);
+      pointLight.position.x = 100;
+      pointLight.position.y = 50;
+      pointLight.position.z = 130;
+      // antialiasing not working on iPad...
+      pointLight.shadow.mapSize.width = 1024; // default is 512
+      pointLight.shadow.mapSize.height = 1024; // default is 512
+      scene.add(pointLight);
+
+						//Last but not least, we add the renderer element to our HTML document. This is a <canvas> element the renderer uses to display the scene to us.
+						document.body.appendChild( renderer.domElement );
+      
+      const cueX=-40; 
+      const ballSize=5;
+      const cueXMagnitude=20;
+      
+      ///////////////////////////////////
+      //
+      // Lines
+      //
+      ///////////////////////////////////
+   
+      const materialA = new THREE.LineBasicMaterial( { color: 0xffffff } );
+      const materialB = new THREE.LineBasicMaterial( { color: 0xff0000 } );      
+      const materialC = new THREE.LineBasicMaterial( { color: 0xffff00 } );
+      
+      pointsYellow= []; 
+      pointsYellow.push( new THREE.Vector3( cueX, 0, 0 ) );
+      pointsYellow.push( new THREE.Vector3( cueX+20, 0, -5 ) );
+      geometryYellowLine = new THREE.BufferGeometry().setFromPoints( pointsYellow );
+      lineC = new THREE.Line( geometryYellowLine, materialC );
+		  scene.add(lineC);
+      
+      pointsYellow2 = []; 
+      pointsYellow2.push( new THREE.Vector3( 40, 0, 0 ) );
+      pointsYellow2.push( new THREE.Vector3( 60, 0, 0 ) );
+      geometryYellowLine2 = new THREE.BufferGeometry().setFromPoints( pointsYellow2 );
+      lineC2 = new THREE.Line( geometryYellowLine2, materialC );
+      scene.add(lineC2);      
+      
+      pointsRed = []; 
+      pointsRed.push( new THREE.Vector3( 20, 0, 30 ) );
+      pointsRed.push( new THREE.Vector3( -10, 0, 0 ) );
+      geometryRedLine = new THREE.BufferGeometry().setFromPoints( pointsRed );
+      lineBRed = new THREE.Line( geometryRedLine, materialB );
+      scene.add(lineBRed);
+            
+      pointsRed2 = []; 
+      pointsRed2.push( new THREE.Vector3( 30, 0, 0 ) );
+      pointsRed2.push( new THREE.Vector3( 40, 0, 0 ) );
+      geometryRedLine2 = new THREE.BufferGeometry().setFromPoints( pointsRed2 );
+      lineBRed2 = new THREE.Line( geometryRedLine2, materialB );
+      scene.add(lineBRed2);
+                  
+      pointsWhite = []; 
+      pointsWhite.push( new THREE.Vector3(  0, 0, 0 ) );
+      pointsWhite.push( new THREE.Vector3( 30, 0, -30 ) );
+      geometryWhiteLine = new THREE.BufferGeometry().setFromPoints( pointsWhite );
+      lineAWhite = new THREE.Line( geometryWhiteLine, materialA );
+      scene.add(lineAWhite);
+      
+      pointsWhite2 = []; 
+      pointsWhite2.push( new THREE.Vector3(  0, 0, 0 ) );
+      pointsWhite2.push( new THREE.Vector3( 30, 0, -30 ) );
+      geometryWhiteLine2 = new THREE.BufferGeometry().setFromPoints( pointsWhite2 );
+      lineAWhite2 = new THREE.Line( geometryWhiteLine2, materialA );
+      scene.add(lineAWhite2);
+      
+     
+      ///////////////////////////////////
+      //
+      // balls
+      //
+      ///////////////////////////////////
+      
+      const geometryS = new THREE.SphereGeometry(ballSize, 32, 16 );
+      
+      const materialS1 = new THREE.MeshPhongMaterial( { color: 0xeeeeee, transparent:false, opacity: 0.3 } );
+      const cue = new THREE.Mesh( geometryS, materialS1 );
+      scene.add( cue );
+
+      const materialS2 = new THREE.MeshPhongMaterial( { color: 0xff2222, transparent:false, opacity: 0.3 } );
+      const red = new THREE.Mesh( geometryS, materialS2 );
+      scene.add( red );
+
+      const materialS3 = new THREE.MeshPhongMaterial( { color: 0xbbbbbb, transparent:true, opacity: 0.2 } );
+      const ghost = new THREE.Mesh( geometryS, materialS3 );
+      scene.add( ghost );
+
+      ///////////////////////////////////
+      //
+      // Camera
+      //
+      ///////////////////////////////////
+      camera.position.x = 40;
+      camera.position.y = 10;
+      camera.position.z = 0;
+ 
+      camera.lookAt(new THREE.Vector3(40,0,0));
+      
+      slope=0;
+      cueZ=10;
+      
+      //We're not actually rendering anything yet. For that, we need what's called a render or animate loop.
+      var animate = function () {
+
+        //This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages. Perhaps the most important one is that it pauses when the user navigates to another browser tab, hence not wasting their precious processing power and battery life.
+        requestAnimationFrame( animate );
+
+        cue.position.set (cueX,0,cueZ);
+        red.position.set (0,0,0);	
+        
+        //slope += 0.0012;
+        cueZ += -0.05+(cueZ*cueZ/3000)
+        theta=Math.PI/2*slope;
+        
+        //Yellow line
+        pointsYellow = []; 
+        pointsYellow.push( new THREE.Vector3( cueX, 5, cueZ ) );
+        pointsYellow.push( new THREE.Vector3( cueX + cueXMagnitude, 5, cueZ ) );
+        geometryYellowLine.setFromPoints( pointsYellow );
+        geometryYellowLine.verticesNeedUpdate ;  
+        
+        
+        //cue Z range of + and - 10 puts cue at opposite edges of red ball       
+        if (cueZ < -10) {
+          cueZ =10;
+        }
+        
+        // x*x + z*z = 2*2*ballSize*ballSize   (equation of circle where center of ghost(cue) can go before striking red ball
+        
+        // solution for x where circle and cue line intersect
+        // ghost.x*ghost.x + ghost.z*ghost.z = ballSize*ballSize*2*2
+        
+        //quadratic form
+        //ghost.x*ghost.x + ghost.z*ghost.z - ballSize*ballSize*2*2 = 0 
+        
+        //quadratic formula
+        //a*x*x + b*x + c = 0
+        
+        a=1;
+        b=0;
+        c=cueZ*cueZ - ballSize*ballSize*2*2;
+        
+        x1 = (-1*b + Math.sqrt(b*b - 4*a*c))/2*a;
+        x2 = (-1*b - Math.sqrt(b*b - 4*a*c))/2*a;
+        ghostX=x1;
+        //choose the lesser value (the near side of red ball)
+        if (x1 >x2) {ghostX=x2;}
+        
+        //x^2 + z^2 = (2r)^2
+        ghostZ=  Math.sqrt(ballSize*ballSize*2*2 - ghostX*ghostX);
+        if (cueZ < 0) { ghostZ=-ghostZ;}
+     
+        
+        ghost.position.set (ghostX,0,ghostZ);	
+        
+        //Red line(s)
+        lineRedSlope=(ghostZ/ghostX);
+        lineRedTheta=Math.atan(lineRedSlope);
+				lineRedMagnitude=cueXMagnitude*Math.cos(lineRedTheta)*-1;
+        lineRedX=lineRedSlope*lineRedMagnitude;
+        lineRedZ=lineRedSlope*lineRedMagnitude;
+        
+        pointsRed = []; 
+        pointsRed.push( new THREE.Vector3( 0, 5, 0 ) );
+        pointsRed.push( new THREE.Vector3( lineRedMagnitude*Math.cos(lineRedTheta)*-1, 5, lineRedMagnitude*Math.sin(lineRedTheta)*-1 ));
+        geometryRedLine.setFromPoints( pointsRed );
+        geometryRedLine.verticesNeedUpdate ; 
+        
+        pointsRed2 = []; 
+        pointsRed2.push( new THREE.Vector3( 40, 5, 0 ) );
+        lineRedX2=40+lineRedMagnitude*Math.cos(lineRedTheta)*-1;
+        lineRedZ2=lineRedMagnitude*Math.sin(lineRedTheta)*-1;
+        pointsRed2.push( new THREE.Vector3( lineRedX2, 5, lineRedZ2));
+        geometryRedLine2.setFromPoints( pointsRed2 );
+        geometryRedLine2.verticesNeedUpdate ; 
+        
+        //White line(s)
+        lineWhiteSlope=-1/((ghostZ/ghostX));
+        lineWhiteTheta=Math.atan(lineWhiteSlope);
+				lineWhiteMagnitude=cueXMagnitude*Math.cos(lineWhiteTheta)*-1;
+        lineWhiteX=Math.cos(lineWhiteTheta)*-1*lineWhiteMagnitude;
+        lineWhiteZ=Math.sin(lineWhiteTheta)*-1*lineWhiteMagnitude;
+        pointsWhite = []; 
+        pointsWhite.push( new THREE.Vector3( ghostX, 5, ghostZ ) );
+        pointsWhite.push( new THREE.Vector3( ghostX+lineWhiteX, 5, ghostZ+lineWhiteZ ));
+        geometryWhiteLine.setFromPoints( pointsWhite );
+        geometryWhiteLine.verticesNeedUpdate ; 
+        
+        lineWhiteX2=Math.cos(lineWhiteTheta)*-1*lineWhiteMagnitude;
+        lineWhiteZ2=Math.sin(lineWhiteTheta)*-1*lineWhiteMagnitude ;
+        pointsWhite2 = []; 
+        pointsWhite2.push( new THREE.Vector3( lineRedX2, 5, lineRedZ2 ) );
+        pointsWhite2.push( new THREE.Vector3( lineRedX2+lineWhiteX2, 5, lineRedZ2+lineWhiteZ2 ));
+        geometryWhiteLine2.setFromPoints( pointsWhite2 );
+        geometryWhiteLine2.verticesNeedUpdate ; 
+        
+      
+        renderer.render( scene, camera );
+      };
+
+			animate();
+
+
+		</script>
+    
+  </body>
+</html>
