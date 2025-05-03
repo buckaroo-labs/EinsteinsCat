@@ -1,0 +1,101 @@
+ul#ulContents li {
+	list-style-type: none;
+}
+
+h2 {
+	color: white;
+	background-color: #000066;
+	clear:both;
+	padding-left: 5px;
+	padding-bottom: 3px;
+}
+
+h2.sticky {
+	position: sticky;
+	top: 0;
+	z-index: 4;
+	padding-left: 5px;
+	padding-bottom: 3px;
+}
+h3 {
+	padding-left: 5px;
+	padding-bottom: 3px;
+	position: sticky;
+	top: 0;
+	color: white;
+	background-color: #006600;
+	z-index: 3;
+	clear:both;
+}
+.TOCSectionHeading {
+	background-color: #006600;
+	color: white;
+	max-width: 50%;
+}
+
+
+.TOCSectionHeading a {
+	text-decoration: none;
+}
+.TOCSectionHeading a:link {
+	color: white;
+}
+.TOCSectionHeading a:hover {
+	color: white;
+}
+.TOCSectionHeading a:visited {
+	color: white;
+}
+.TOCSectionHeading a:active {
+	color: white;
+}
+
+
+img.Figure{
+	max-width:min(850px, 100%);height:auto
+} 
+
+#nav div {
+	display:inline-block;
+	background:rgba(50,50,50, 0.2);
+	border:1px solid #aaa;
+	border-radius:0.3em;
+	padding:0.3em;
+	position:fixed;
+}
+
+div#next {
+	right:0.3em;	bottom:0.3em
+}
+
+div#contents {
+	right:4.5em;
+	bottom:0.3em
+}
+
+#toTop{
+	display:inline-block;
+	background:rgba(50,50,50, 0.2);
+	border:1px solid #aaa;
+	border-radius:0.3em;
+	padding:0.3em;
+	position:fixed;
+	right:0.3em;
+	bottom:2.5em;
+}
+
+div#nav div a{
+	color:#000;text-decoration:none
+}
+
+#toTop a{
+	color:#000;text-decoration:none
+}
+
+a, .wrapWord{
+	overflow-wrap:break-word
+}
+
+hr {
+	display: none;
+	}

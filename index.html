@@ -6,28 +6,22 @@
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Einstein's Cat</title>
-    <style>
-      img.Figure{max-width:min(850px, 100%);height:auto} 
-#toTop{display:inline-block;background:rgba(50,50,50, 0.2);border:1px solid #aaa;border-radius:0.3em;padding:0.3em;position:fixed;right:0.3em;bottom:0.3em}
-#toTop a{color:#000;text-decoration:none}
-a, .wrapWord{overflow-wrap:break-word}
-    </style>
+	<link rel="stylesheet" href="styles.css">
   </head>
   <body id="top">
     <blockquote>
-      <h1><img src="images/title.png" alt="Einstein's
-      Cat" style="max-height: 60px;"><br>
+      <h1><img src="images/title-medium.jpg" alt="Einstein's Cat" style="max-height: 60px; max-width: 95%;"><br>
         and Other Meditations on Space, Time and Causality</h1>
       <p style="font-size:large;">by Kent Heiner</p>
-      <img src="images/cover.gif" style="max-height: 450px;"> </blockquote>
-    <p>First Edition, 2023</p>
-    <h2>CONTENTS</h2>
-    <ul>
+      <img src="images/cover.gif" alt="Animated image of the Cheshire Cat from Alice in Wonderland" style="max-height: 450px; max-width: 95%;"> </blockquote>
+    <p>First Edition, 2023 <br> online version 1.1.0, May 2025</p>
+    <h2 class="sticky">CONTENTS</h2>
+    <ul id="ulContents">
       <li><a href="#Preface">Preface</a></li>
       <li><a href="#Acknowledgements">Acknowledgements</a></li>
-      <li><a href="#Intro">Introduction: Schrödinger and Einstein</a></li>
+      <li><a href="#Intro">Introduction: Schr&ouml;dinger and Einstein</a></li>
       <br>
-      <a href="section_1.html">SECTION ONE</a>: Classical Physics<br>
+      <div class="TOCSectionHeading"><a  href="section_1.html">SECTION ONE</a>: Classical Physics<br></div>
       <li><em><a href="section_1.html#OnFugues">Fit the First: On Fugues</a></em></li>
       <li><a href="section_1.html#ChapterOne">Chapter One: Mapping Space</a></li>
       <li><a href="section_1.html#ChapterTwo">Chapter Two: Mapping Time</a></li>
@@ -69,8 +63,8 @@ a, .wrapWord{overflow-wrap:break-word}
       <li><a href="section_1.html#ChapterSixteen">Chapter Sixteen: Three Things
           About Gravity Which Are Not Quite True (I) </a><!-- parabolic paths --></li>
       <br>
-      <a href="section_2.html">SECTION TWO</a>: The End of the World As We Knew
-      It <br>
+      <div class="TOCSectionHeading"><a href="section_2.html">SECTION TWO</a>: The End of the World As We Knew
+      It <br></div>
       <li><a href="section_2.html#ChapterSeventeen">Chapter Seventeen: Mapping
           the Earth (II)</a></li>
       <li><a href="section_2.html#ChapterEighteen">Chapter Eighteen: The Arrow
@@ -107,7 +101,7 @@ a, .wrapWord{overflow-wrap:break-word}
       <li><em><a href="section_2.html#NonSequiturII">Fit the Seventh: Return to
             the Non Sequitur </a></em></li>
       <br>
-      <a href="section_3.html">SECTION THREE</a>: Three Shalt Thou Count
+      <div class="TOCSectionHeading"><a href="section_3.html">SECTION THREE</a>: Three Shalt Thou Count</div>
       <li><a href="section_3.html#ThreeThingsIII">Chapter Twenty-Nine: Three
           Things About Gravity Which Are Not Quite True (III)</a></li>
       <li><a href="section_3.html#MappingEarthIII">Chapter Thirty: Mapping the
@@ -118,7 +112,7 @@ a, .wrapWord{overflow-wrap:break-word}
           a Three-Dimensional Spacetime </a> <br>
       </li>
       <br>
-      <a href="section_4.html">SECTION FOUR</a>: Back Through the Looking-Glass
+      <div class="TOCSectionHeading"><a href="section_4.html">SECTION FOUR</a>: Back Through the Looking-Glass</div>
       <!-- <li><a href="section_4.html#ThreeThingsIV">Chapter ______: Three Things
           About Gravity Which Are Not Quite True (IV)</a></li>  -->
       <li><a href="section_4.html#MappingSpacetime">Chapter Thirty-Two<!--<em>i</em><sup>4</sup>-->:
@@ -137,7 +131,7 @@ a, .wrapWord{overflow-wrap:break-word}
     </p>
     <p> </p>
     <hr>
-    <h2 id="Preface">Preface</h2>
+    <h2 id="Preface" class="sticky">Preface</h2>
     <p>If the night sky is a source of wonder for you, this book might be for
       you. If, when you look up at the night sky, you pause to think about the
       different relative ages of the light coming from each far-distant star,
@@ -164,8 +158,8 @@ a, .wrapWord{overflow-wrap:break-word}
       might start to wonder more pointedly about the nature of time, space, and
       reality itself. </p>
     <blockquote>
-      <p> <img loading="lazy" src="images/J50-orca-family_h.jpg" style="max-height: 350px;">
-        <img loading="lazy" src="images/Lime_Kiln_Lighthouse_03.jpg" style="max-height: 350px;">
+      <p> <img loading="lazy" src="images/J50-orca-family_h.jpg" style="max-height: 350px;max-width: 95%;">
+        <img loading="lazy" src="images/Lime_Kiln_Lighthouse_03.jpg" style="max-height: 350px;max-width: 95%;">
         <br>
         <em>Above <a target="_blank" href="https://commons.wikimedia.org/wiki/File:J50-orca-family_h.jpg">left/top</a></em>:
         Orcas of J pod, the resident whales that frequent the waters near San
@@ -208,7 +202,8 @@ a, .wrapWord{overflow-wrap:break-word}
       just to make the teaching of it easier, to pull the mystery out of
       spacetime, and to call out the recurring nonsense that real science so
       often comes packaged with, even from respectable scientists. In Ron
-      Garret's fascinating <a href="https://www.youtube.com/watch?v=dEaecUuEqfc"
+      Garret's fascinating <a href="https://www.youtube.com/watch?v=dEaecUuEqfc"
+
         target="_blank">presentation</a> on quantum entanglement, he refers to
       his comments as <em>the things that they don't want you to know</em>,
       "they" being the many authors who produce book after book in an apparent
@@ -301,8 +296,10 @@ a, .wrapWord{overflow-wrap:break-word}
       well, and her stories will serve as excellent metaphors. As to the
       heritage and rich history of other characters in this book, it will often
       please me to let readers make these discoveries on their own. </p>
-    <blockquote><a href="images/1599px-Steep_grades_-_sharp_curves_%282279651479%29.jpg"
-        target="_blank"><img class="Figure" loading="lazy" src="images/1599px-Steep_grades_-_sharp_curves_%282279651479%29.jpg"
+    <blockquote><a href="images/1599px-Steep_grades_-_sharp_curves_%282279651479%29.jpg"
+		alt="Image of roadside sign warning of steep grades and sharp curves"
+        target="_blank"><img class="Figure" loading="lazy" src="images/1599px-Steep_grades_-_sharp_curves_%282279651479%29.jpg"
+
           style="max-height: 350px;"></a><br>
     </blockquote>
     <p>Finally, I want to emphasize that my intent is to address audiences at
@@ -318,20 +315,22 @@ a, .wrapWord{overflow-wrap:break-word}
       alternate paths through the text. I hope the journey is enjoyable. <br>
       <br>
       (Image above licensed by Wikimedia Commons. Click image above to enlarge;
-      click link <a href="https://commons.wikimedia.org/wiki/File:Steep_grades_-_sharp_curves_%282279651479%29.jpg"
+      click link <a href="https://commons.wikimedia.org/wiki/File:Steep_grades_-_sharp_curves_%282279651479%29.jpg"
+
         target="_blank">here </a>for license details).</p>
     <h3>For the Kindle Edition</h3>
     <p>Thank you to those who have purchased the Kindle edition of this book.
       While I have taken care to prepare the Kindle edition with a high standard
       of quality, some errors will no doubt persist. The most up-to-date version
-      of this book will be found on line at <a href="https://www.monstro.us/cat/"
+      of this book will be found on line at <a href="https://www.monstro.us/cat/"
+
         target="_blank">www.monstro.us/cat/</a>. The online edition of the book
       will also offer some advantages of hyperlinked text, flexible formatting
       and animated content that the Kindle format does not or cannot. I have
       noted in the captions for each illustration which of them are animated.<br>
     </p>
     <hr>
-    <h2 id="Acknowledgements">Acknowledgements</h2>
+    <h2 id="Acknowledgements" class="sticky">Acknowledgements</h2>
     <p> I wish to thank everyone who has been kind enough to listen to me ramble
       about these ideas as they have developed, especially my family and
       friends. I am grateful to the Everett Writers Group for their feedback on
@@ -350,7 +349,8 @@ a, .wrapWord{overflow-wrap:break-word}
       Walter Lewin (MIT), Kenneth Lang (Tufts), Edwin Taylor (MIT) and David
       Nielsen (BYU) have likewise graciously responded to questions I have sent
       them by email. Murray Bourne (<a href="https://www.intmath.com" target="_blank">intmath.com</a>)
-      gave me many helpful hints, including on the use of <a href="https://threejs.org"
+      gave me many helpful hints, including on the use of <a href="https://threejs.org"
+
         target="_blank">three.js</a>, which I have used to make several of this
       book's animations.&nbsp; </p>
     <p>Speaking of which, I continue to be amazed at the free and open source
@@ -358,7 +358,8 @@ a, .wrapWord{overflow-wrap:break-word}
       anonymous. I would like to thank the people behind three.js, gnuplot,
       FireAlpaca, Wikimedia, and Wikipedia. Many of the illustrations you will
       find here are made available under the Creative Commons 3.0 license, the
-      terms of which you will find in the links provided and <a href="https://creativecommons.org/about/cclicenses/"
+      terms of which you will find in the links provided and <a href="https://creativecommons.org/about/cclicenses/"
+
         target="_blank">here</a>. Any such illustrations which I have modified
       for my purposes are available to you under the same terms. Wikipedia is a
       modern marvel, with staggering amounts of free expertise and lucid
@@ -371,7 +372,7 @@ a, .wrapWord{overflow-wrap:break-word}
       can't think of any better way for an independent learner to get
       instruction on many topics in math and physics (and more). &nbsp; </p>
     <hr>
-    <h2 id="Intro">Introduction: Schrödinger and Einstein</h2>
+    <h2 id="Intro" class="sticky">Introduction: Schr&ouml;dinger and Einstein</h2>
     <p>The beginning of the 20th century was a revolutionary time in physics.
       Relativity and quantum theory have changed the way we think about space
       and time, cause and effect, and reality itself.&nbsp; One of Albert
@@ -379,17 +380,17 @@ a, .wrapWord{overflow-wrap:break-word}
       relativity, and another paper that same year contributed to another theory
       which would come to be known as quantum mechanics.</p>
     <p>Of all the ideas surrounding quantum theory, the best-known is the
-      thought experiment known as "Schrödinger's Cat." As it became clear that
+      thought experiment known as "Schr&ouml;dinger's Cat." As it became clear that
       physical processes on the smallest scales could not be measured without
       disturbing them, physicists began talking about the minimum level of <em>uncertainty
-        </em>inherent in such systems. In the midst of this, Erwin Schrödinger
+        </em>inherent in such systems. In the midst of this, Erwin Schr&ouml;dinger
       became uncomfortable with the direction that scientific thought was
       taking. Just because a property of a system is not measurable, he asked,
       can anyone really be justified in saying that the system has no such
       property? Because Danish physicist Niels Bohr was among those who insisted
       that such was indeed the case, this way of thinking became known as the
       Copenhagen interpretation of quantum theory. In 1935, to make his
-      objections to the Copenhagen interpretation clear, Schrödinger presented
+      objections to the Copenhagen interpretation clear, Schr&ouml;dinger presented
       Einstein with a thought experiment.</p>
     <p><a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat">Wikipedia</a>
       summarizes his idea well: "A cat, a flask of poison, and a radioactive
@@ -401,14 +402,14 @@ a, .wrapWord{overflow-wrap:break-word}
       the cat either alive or dead, not both alive and dead. This poses the
       question of when exactly quantum superposition ends and reality resolves
       into one possibility or the other." </p>
-    <p><img loading="lazy" src="images/cats.gif" style="max-height:200px;float:left;">The
+    <p><img alt="Animated illustration alternating between images of single cat upright and prone" loading="lazy" src="images/cats.gif" style="max-height:200px;float:left;">The
       idea of the cat being both alive and dead was never meant to be taken
       seriously. It was a <em>reductio ad absurdum</em> argument against the
       Copenhagen interpretation, following Bohr's philosophy to its most
       ridiculous consequence. But it caught hold of the popular imagination:
-      from Robert Anton Wilson's <em>Schrödinger's Cat </em>sci-fi trilogy, to
+      from Robert Anton Wilson's <em>Schr&ouml;dinger's Cat </em>sci-fi trilogy, to
       a popular-science bestseller by John Gribbin called <em>In Search of
-        Schrödinger's Cat</em>, to countless internet memes, this is the cat
+        Schr&ouml;dinger's Cat</em>, to countless internet memes, this is the cat
       that will never truly die. </p>
     <p>In one hundred words or less, quantum theory is a theory about very small
       things; it is also considered a formal and precise way of describing the
@@ -419,7 +420,7 @@ a, .wrapWord{overflow-wrap:break-word}
       certainties. </p>
     <p>Though we haven't yet come around to thinking that way, the theory of
       relativity implies a degree of uncertainty in the physical world as well,
-      due the the limits on how fast light is capable of transmitting
+      due to the limits on how fast light is capable of transmitting
       information between one physical system and another. To convince you that
       this is so will take quite a lot of explanation; but for now, consider the
       following story, which may or not be true:</p>
@@ -446,7 +447,10 @@ a, .wrapWord{overflow-wrap:break-word}
       cat from its fate. You will never see nor hear it alive again. If I can
       assure you that the situation is precisely as I have described it, is
       there any strict sense in which your cat is not already dead?"</p>
-    <hr> <a href="section_1.html" target="_top">Next </a>
-    <div id="toTop"><a href="#top">⇧ top</a></div>
+
+	  <div id="nav">
+		<div id="toTop"><a href="#top">&uArr; top</a></div>
+		<div id="next"><a href="section_1.html">&rArr; next</a></div>
+		</div>
   </body>
 </html>
