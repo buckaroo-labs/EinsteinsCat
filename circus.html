@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@ canvas {
     background-color: #443322;
 }
 </style> </head>
-  <!--<body onload="startGame()"> --> <body> <button onclick="startGame()">START</button>
+  <!--<body onload="startGame()"> --> <body> <button id="startButton" onclick="startGame()">START</button>
     <!--<script src="http://unpkg.com/tone"></script>-->
     <script src="javascript/Tone.js"></script>
     <script>
@@ -50,6 +50,7 @@ function startGame() {
     myScore2 = new component("30px", "Courier New", "white", centerX-228, 40, "text");
     myScore2.text=0;
     myGameArea.start();
+    document.getElementById("startButton").style.display="none";
 }
 
 var myGameArea = {

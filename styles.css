@@ -1,5 +1,6 @@
 body {
 	padding-left: 6px;
+	margin-bottom: 120px;
 }
 
 ul#ulContents li {
@@ -26,18 +27,24 @@ h2.sticky {
 h3 {
 	padding-left: 5px;
 	padding-bottom: 3px;
+	margin-top: 120px;
 	position: sticky;
 	top: 0;
 	color: white;
 	background-color: #006600;
 	z-index: 3;
 	clear:both;
+	/*This causes overflow but also keeps sticky headers a uniform size*/
 	white-space: nowrap;
+	max-width: 100%;
 }
 .TOCSectionHeading {
 	background-color: #006600;
 	color: white;
 	max-width: 50%;
+	padding: 5px;
+	margin-bottom: 8px;
+	margin-top: 20px;
 }
 
 
@@ -57,6 +64,26 @@ h3 {
 	color: white;
 }
 
+figure {
+  display: table;
+  min-width: 20%;
+}
+
+figure.float-large {
+	float: right;
+	clear: right;
+	max-width: 70%;
+}
+figure.float-medium {
+	float: right;
+	clear: right;
+	max-width: 50%;
+}
+
+figcaption {
+  display: table-caption;
+  caption-side: bottom;
+}
 
 img.Figure{
 	max-width:min(850px, 100%);height:auto
@@ -72,12 +99,14 @@ img.Figure{
 }
 
 div#next {
-	right:0.3em;	bottom:0.3em
+	right:0.3em;	bottom:0.3em;
+	z-index: 9;
 }
 
 div#contents {
 	right:4.5em;
-	bottom:0.3em
+	bottom:0.3em;
+	z-index: 9;
 }
 
 #toTop{
@@ -89,6 +118,7 @@ div#contents {
 	position:fixed;
 	right:0.3em;
 	bottom:2.5em;
+	z-index: 9;
 }
 
 div#nav div a{
@@ -106,3 +136,46 @@ a, .wrapWord{
 hr {
 	display: none;
 	}
+
+.figdiv {
+	clear: right;
+	float: right;
+	margin: 30px;
+	max-width: 65%;
+	min-width: 50%;
+}
+
+@media only screen and (max-width: 1100px) {
+	figure.float-large {
+		float:none;
+		max-width: 100%;
+		min-width: 30%;
+	}
+	
+}
+
+@media only screen and (max-width: 900px) {
+	figure.float-large {
+		float:none;
+		max-width: 100%;
+		min-width: 40%;
+	}
+	
+}
+
+@media only screen and (max-width: 550px) {
+	.figdiv {
+		float:none;
+		max-width: 100%;
+	}
+	.figdiv figure {
+		float: none;
+	}
+	figure.float-medium {
+		float:none;
+		max-width: 100%;
+		min-width: 50%;
+	}
+}
+
+#Table17-3 tr:nth-child(even){background-color: #f2f2f2;}
